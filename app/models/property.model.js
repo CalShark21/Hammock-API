@@ -38,7 +38,7 @@ Property.findById = (id, result) => {
       console.log("found tutorial: ", res[0]);
       result(null, res[0]);
       return;
-    }
+    }                                                                            t
 
     // not found Tutorial with the id
     result({ kind: "not_found" }, null);
