@@ -47,6 +47,7 @@ exports.findAll = (req, res) => {
   });
 };
 
+
 // Find a single Tutorial by Id
 exports.findOne = (req, res) => {
   Property.findById(req.params.id, (err, data) => {
@@ -63,8 +64,6 @@ exports.findOne = (req, res) => {
     } else res.send(data);
   });
 };
-
-
 
 // Update a Tutorial identified by the id in the request
 exports.update = (req, res) => {

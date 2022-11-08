@@ -1,3 +1,4 @@
+const properties = require("../controllers/property.controller.js");
 module.exports = app => {
   const properties = require("../controllers/property.controller.js");
 

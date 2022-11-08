@@ -3,6 +3,7 @@ const sql = require("./db.js");
 // constructor
 const Property = function(property) {
   this.title = property.title;
+  this.id = property.id;
   this.description = property.description;
   this.proptype = property.proptype;
   this.location = property.location;
