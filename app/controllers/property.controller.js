@@ -13,13 +13,15 @@ exports.create = (req, res) => {
   const property = new Property({
     title: req.body.title,
     description: req.body.description,
-    proptype: req.body.proptype,
+    type: req.body.type,
     location: req.body.location,
     guests: req.body.guests,
     beds: req.body.beds,
     baths: req.body.baths,
     amenities: req.body.amenities,
     price: req.body.price,
+    main_photo: req.body.main_photo,
+    side_photo: req.body.side_photo
   });
 
   // Save Tutorial in the database

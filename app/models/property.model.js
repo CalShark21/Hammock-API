@@ -5,13 +5,15 @@ const Property = function(property) {
   this.title = property.title;
   this.id = property.id;
   this.description = property.description;
-  this.proptype = property.proptype;
+  this.type = property.type;
   this.location = property.location;
   this.guests = property.guests;
   this.beds = property.beds;
   this.baths = property.baths;
   this.amenities = property.amenities;
   this.price = property.price;
+  this.main_photo = property.main_photo;
+  this.side_photo = property.side_photo;
 };
 
 Property.create = (newProperty, result) => {
