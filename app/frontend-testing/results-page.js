@@ -1,4 +1,92 @@
 
+// Our JSON object containing returned objects from search, currently just returns all objects in database
+
+/* -- Fake API data --
+
+const propData = [
+    {
+        "title": "Italian Villa",
+        "id": "1234",
+        "description": "this is a fake description",
+        "type": "Condo",
+        "location": "Rhode Island",
+        "guests": 5,
+        "beds": 1,
+        "baths": 3,
+        "amenities": "free coffee",
+        "price": 180,
+        "main_photo": "villa-main.jpg",
+        "side_photo": "villa-main.jpg"
+    },
+    {
+        "title": "Cozy Cottage",
+        "id": "12345",
+        "description": "this is a fake description part 2",
+        "type": "House",
+        "location": "New Hampshire",
+        "guests": 4,
+        "beds": 2,
+        "baths": 1.5,
+        "amenities": "free wifi",
+        "price": 220,
+        "main_photo": "villa-main.jpg",
+        "side_photo": "villa-main.jpg"
+    },
+    {
+        "title": "Tilted Towers",
+        "id": "123456",
+        "description": "this is a fake description part 2",
+        "type": "House",
+        "location": "New Donk City",
+        "guests": 10,
+        "beds": 4,
+        "baths": 2,
+        "amenities": "free sha va ca doo",
+        "price": 250,
+        "main_photo": "villa-main.jpg",
+        "side_photo": "villa-main.jpg"
+    }
+]
+*/
+
+
+/* -- Template for Div --
+    <div class="card" onclick="window.location= 'property-detailed.html'">
+        <div class="card-image" style="background-image: url('/images/villa-main.jpg')"></div>
+        <h2>${propData.title}</h2>
+        <p>${propData.guests} guests - ${propData.beds} bedrooms - ${propData.baths} baths</p>
+        <h3 class="price">${propData.price}</h3>
+    </div>
+ */
+
+const inputLocation = localStorage.getItem('location');
+var locationFetchURL = 'http://localhost:8080/api/properties/?location=' + inputLocation;
+console.log('http://localhost:8080/api/properties/?location=' + inputLocation);
+//document.getElementById("heading").textContent += inputLocation;
+
+fetch(locationFetchURL)
+    .then( res => res.json())
+    .then( data => buildCards(data))
+
+function propertyTemplate(property){
+    return `
+        <div class="card" onclick="passData(${property.id})">
+            <div class="card-image" style="background-image: url('Main1.JPG')"></div>
+            <h2>${property.title}</h2>
+            <p>${property.guests} guests - ${property.beds} bedrooms - ${property.baths} baths</p>
+            <h3 class="price">${property.price}</h3>
+        </div>
+    `
+}
+function buildCards(propData) {
+    document.getElementById("card-container").innerHTML = `
+    <h1 id="heading">Results for stays in ${inputLocation}</h1>
+    ${propData.map(propertyTemplate).join('')} 
+`
+}
+/*function passData(propID){
+    window.location.href = 'property-detailed.html' + '#' + propID;
+}*/
 const rangeInput = document.querySelectorAll(".range-input input"),
     priceInput = document.querySelectorAll(".price-input input"),
     progress = document.querySelector(".slider .progress");
@@ -9,11 +97,6 @@ const adultPlus = document.getElementById("adult-plus"),
     childrenPlus = document.getElementById("children-plus"),
     childrenMinus = document.getElementById("children-minus"),
     childrenNum = document.getElementById("children-num");
-
-
-
-const inputLocation = localStorage.getItem('location');
-document.getElementById("heading").textContent += inputLocation;
 
 
 // Counter Buttons

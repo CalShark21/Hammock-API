@@ -44,7 +44,7 @@ $(searchButton).click(function () {
 
     localStorage.setItem('location', inputLocation);
 
-    window.location.href = 'results-page.html' + '#3';
+    window.location.href = 'results-page.html';
 
 
 

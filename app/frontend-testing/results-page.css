@@ -193,7 +193,7 @@ input[type="range"]::-moz-range-thumb{
 
 }
 
-.card-container{
+#card-container{
 
     display: flex;
 
@@ -215,11 +215,6 @@ input[type="range"]::-moz-range-thumb{
     height: 156px;
     background-size: cover;
     border-radius: 15px 15px 0 0;
-}
-
-.card-1{
-    background-image: url('https://www.kayak.com/rimg/himg/7d/a1/58/leonardo-1082959-WRWJF_4320157194_O-059159.jpg?width=720&height=576&crop=true');
-
 }
 
 .card-2{
@@ -254,7 +249,6 @@ input[type="range"]::-moz-range-thumb{
 }
 
 
-
 .card:hover{
     background-color:#008489;
     color:white;
@@ -275,4 +269,7 @@ input[type="range"]::-moz-range-thumb{
 
 .card:hover .price{
     color:black;
+}
+#card-container li{
+    display: inline-block;
 }
