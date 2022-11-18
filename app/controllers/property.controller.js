@@ -37,8 +37,25 @@ exports.create = (req, res) => {
 exports.findAll = (req, res) => {
   //const title = req.query.title;
 
+  // Search by location and price
+  if (req.query.hasOwnProperty('location') && req.query.hasOwnProperty('price')) {
+    const location = req.query.location;
+    const price = req.query.price;
+    Property.getLocationAndPrice(location, price,(err, data) => {
+      if (err)
+        res.status(500).send({
+          message:
+              err.message || "Error occurred while retrieving properties by location/price."
+        });
+      else {
+        console.log(`Property with location ${location} and price ${price} was found!` );
+        res.send(data);
+      }
+    });
+  }
+
   // Search by location
-  if (req.query.hasOwnProperty('location')) {
+  else if (req.query.hasOwnProperty('location')) {
     const location = req.query.location;
     Property.getLocation(location, (err, data) => {
       if (err)

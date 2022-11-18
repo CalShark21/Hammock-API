@@ -1,13 +1,9 @@
 const propertyDisplay = document.querySelector("property-display")
 const searchButton = document.querySelector(".search-btn")
 
-const textInputLocation = document.getElementById(".text-input-location")
+var textInputLocation = document.getElementById("text-input-location")
 
-var createLineItem = function (item) {
-    return '<div>' + item.title + ' ' + item.location + '</div>';
-}
-
-$(document).ready(function () {
+/*$(document).ready(function () {
     $(searchButton).click(function () {
 
         console.log("search button clicked");
@@ -25,17 +21,78 @@ $(document).ready(function () {
             }
         });
     });
-});
+});*/
 
-searchButton.addEventListener('click', ()=> {
-    //console.log("search button clicked")
+var createLineItem = function (item) {
+    return '<div>' + item.firstName + ' ' + item.lastName + '</div>';
+}
+
+$(searchButton).click(function () {
+    event.preventDefault();
+
+    var inputLocation = textInputLocation.value;
+    console.log("search button clicked!");
+
+    fetchSearchResults()
+        .then(response => {
+            console.log("Fetching search results for " + inputLocation);
+        });
+
+    async function fetchSearchResults() {
+        const response = await fetch('http://localhost:8080/api/properties' + "?location=" + inputLocation);
+    }
+
+    localStorage.setItem('location', inputLocation);
+
+    window.location.href = 'results-page.html' + '#3';
+
+
+
+
+    /*$.ajax(
+    {
+        type: "GET",
+        url: 'http://localhost:8080/api/properties' + "?location=" + inputLocation,
+        dataType: "json",
+        success: function(result) {
+
+        },
+        error: function(x, e) {
+        }
+    });*/
+
+    /*fetch('http://localhost:8080/api/properties' + "?location=" + inputLocation)
+        //.then(response => response)
+        .then( response => {
+            console.log(response.json());
+        });*/
+
+    //console.log(fetch('http://localhost:8080/api/properties' + "?location=" + inputLocation))
+
+
 
     /*fetch('http://localhost:8080/api/properties')
+    .then(data => {
+        data.forEach(property => {
+            const title = `<h3>` + property.title + `</h3>` //or is it property.id?
+            propertyDisplay.insertAdjacentElement("beforeend", title)
+        })
+  })*/
+
+
+
+})
+
+
+/*searchButton.addEventListener('click', ()=> {
+    //console.log("search button clicked")
+
+    fetch('http://localhost:8080/api/properties')
         .then(data => {
             data.forEach(property => {
                 const title = `<h3>` + property.title + `</h3>` //or is it property.id?
                 propertyDisplay.insertAdjacentElement("beforeend", title)
             })
-      })*/
-});
+      })
+});*/
 

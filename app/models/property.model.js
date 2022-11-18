@@ -121,6 +121,25 @@ Property.getPrice = (price, result) => {
   });
 };
 
+Property.getLocationAndPrice = (location, price, result) => {
+  let query = "SELECT * FROM properties";
+
+  if (price) {
+    query += ` WHERE price LIKE '%${price}%' AND location LIKE '%${location}%'`;
+  }
+
+  sql.query(query, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    console.log("properties by price/location: ", res);
+    result(null, res);
+  });
+};
+
 
 Property.updateById = (id, tutorial, result) => {
   sql.query(

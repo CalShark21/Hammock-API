@@ -8,16 +8,10 @@ module.exports = app => {
   // Create a new Property
   router.post("/", properties.create);
 
-  // Retrieve all Properties with location
-  //router.get('/', properties.findLocation);
-
   //router.get('/:location', properties.findLocation);
 
   // Retrieve all Properties
   router.get("/", properties.findAll);
-
-  //router.route('/:location')
-      //.get(properties.findLocation);
 
   // Retrieve a single Tutorial with id
   router.get("/:title", properties.findOne);
@@ -35,7 +29,5 @@ module.exports = app => {
   router.delete("/", properties.deleteAll);
 
   app.use('/api/properties', router);
-
-
 
 };
