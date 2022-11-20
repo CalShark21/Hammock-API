@@ -59,10 +59,36 @@ const propData = [
     </div>
  */
 
-const inputLocation = localStorage.getItem('location');
-var locationFetchURL = 'http://localhost:8080/api/properties/?location=' + inputLocation;
-console.log('http://localhost:8080/api/properties/?location=' + inputLocation);
-//document.getElementById("heading").textContent += inputLocation;
+// Search terms from Search Page, via localStorage
+let inputLocation  = localStorage.getItem('location');
+let inputStartDate = localStorage.getItem('start-date');
+let inputEndDate   = localStorage.getItem('end-date');
+let inputGuests    = localStorage.getItem('guests');
+
+// Search bar HTML elements
+const srchBarLocation  = document.getElementById("srch-bar-location");
+const srchBarStartDate = document.getElementById("srch-bar-start-date");
+const srchBarEndDate   = document.getElementById("srch-bar-end-date");
+const srchBarGuests    = document.getElementById("srch-bar-guests");
+const srchBarButton    = document.getElementById("srch-bar-submit");
+
+// Fill in value of search bar elements so search data carries over from Search Page
+srchBarLocation.value = inputLocation;
+srchBarStartDate.value = inputStartDate;
+srchBarEndDate.value = inputEndDate;
+srchBarGuests.value = inputGuests;
+
+let locationFetchURL = 'http://localhost:8080/api/properties/?location=' + inputLocation;
+
+srchBarButton.addEventListener("click", ()=>{
+    localStorage.setItem('location', srchBarLocation.value);
+    localStorage.setItem('start-date', srchBarStartDate.value);
+    localStorage.setItem('end-date', srchBarEndDate.value);
+    localStorage.setItem('guests', srchBarGuests.value);
+    locationFetchURL = 'http://localhost:8080/api/properties/?location=' + srchBarLocation.value;
+});
+
+
 
 fetch(locationFetchURL)
     .then( res => res.json())
@@ -84,9 +110,9 @@ function buildCards(propData) {
     ${propData.map(propertyTemplate).join('')} 
 `
 }
-/*function passData(propID){
+function passData(propID){
     window.location.href = 'property-detailed.html' + '#' + propID;
-}*/
+}
 const rangeInput = document.querySelectorAll(".range-input input"),
     priceInput = document.querySelectorAll(".price-input input"),
     progress = document.querySelector(".slider .progress");

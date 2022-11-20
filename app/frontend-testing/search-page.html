@@ -26,8 +26,8 @@
             <h2>Find a rental</h2>
 
             <!-- 'Location' group-->
-            <form action="">
-                <div class="form-group">
+            <form action="" id="search-form">
+                <div class="form-group" id="form-location">
                     <div class="form-inner">
                         <label for="">
                             Location
@@ -37,7 +37,7 @@
                 </div>
 
                 <!-- Check-in/Check-out group-->
-                <div class="form-group">
+                <div class="form-group" id="form-dates">
 
                     <div class="row">
 
@@ -46,7 +46,7 @@
                                 <label for="">
                                     Check-in Date
                                 </label>
-                                <input type="date" class="form-control-date">
+                                <input type="date" id ="start-date" class="form-control-date">
                             </div>
                         </div>
 
@@ -55,7 +55,7 @@
                                 <label for="">
                                     Check-out Date
                                 </label>
-                                <input type="date" class="form-control-date">
+                                <input type="date" id="end-date" class="form-control-date">
                             </div>
                         </div>
                     </div>
@@ -68,7 +68,7 @@
                         <label for="">
                             Number of travelers
                         </label>
-                        <input type="number" value="1" class="form-control">
+                        <input type="number" id="guests" value="1" class="form-control">
                     </div>
                 </div>
 

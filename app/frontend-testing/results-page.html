@@ -14,21 +14,21 @@
             <form>
                 <div class="location-input">
                     <label>Location</label>
-                    <input type="text" placeholder="Where are you going?">
+                    <input type="text" id="srch-bar-location" placeholder="Where are you going?">
                 </div>
                 <div>
                     <label>Check in</label>
-                    <input type="text" placeholder="Add date">
+                    <input type="text" id="srch-bar-start-date" placeholder="Add date">
                 </div>
                 <div>
                     <label>Check out</label>
-                    <input type="text" placeholder="Add date">
+                    <input type="text" id="srch-bar-end-date" placeholder="Add date">
                 </div>
                 <div>
                     <label>Guests</label>
-                    <input type="text" placeholder="Add guests">
+                    <input type="text" id="srch-bar-guests" placeholder="Add guests">
                 </div>
-                <button type="submit"><img src="images/search-icon.png"></button>
+                <button type="submit" id="srch-bar-submit"><img src="images/search-icon.png"></button>
             </form>
         </div>
         <ul class="nav-items">
@@ -129,6 +129,9 @@
                     Free Parking
                 </label>
             </div>
+        </div>
+        <div>
+            <button id="filter-search-btn">Refresh Search</button>
         </div>
 
     </section>

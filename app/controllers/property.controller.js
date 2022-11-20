@@ -86,6 +86,22 @@ exports.findAll = (req, res) => {
     });
   }
 
+  // Search by type
+  else if (req.query.hasOwnProperty('proptype')) {
+    const proptype = req.query.proptype;
+    Property.getType(proptype, (err, data) => {
+      if (err)
+        res.status(500).send({
+          message:
+              err.message || "Error occurred while retrieving properties by property type."
+        });
+      else {
+        console.log(`Property with type ${proptype} was found!` );
+        res.send(data);
+      }
+    });
+  }
+
   // Default (get all) search
   else  {
     const title = req.query.title;
