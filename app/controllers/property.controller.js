@@ -50,7 +50,7 @@ exports.findAll = (req, res) => {
 };
 
 
-// Find a single Tutorial by Id
+// Find a single Property by Id
 exports.findOne = (req, res) => {
   Property.findById(req.params.id, (err, data) => {
     if (err) {
