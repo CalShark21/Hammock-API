@@ -1,6 +1,6 @@
 module.exports = {
   HOST: "localhost",
   USER: "root",
-  PASSWORD: "sqlroot2@",
+  PASSWORD: "TJ_1232404",
   DB: "HammockDB"
 };

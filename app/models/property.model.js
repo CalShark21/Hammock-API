@@ -29,15 +29,15 @@ Property.create = (newProperty, result) => {
   });
 };
 
-Property.findById = (title, result) => {
-  sql.query(`SELECT * FROM properties WHERE title LIKE ${title}`, (err, res) => {
+Property.findById = (id, result) => {
+  sql.query(`SELECT * FROM properties WHERE id LIKE ${id}`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
       return;
     }
 
-    if (res.length) {      z
+    if (res.length) {
       console.log("found property (via findOne): ", res[0]);
       result(null, res[0]);
       return;
