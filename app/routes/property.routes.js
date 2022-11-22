@@ -8,8 +8,6 @@ module.exports = app => {
   // Create a new Property
   router.post("/", properties.create);
 
-  //router.get('/:location', properties.findLocation);
-
   // Retrieve all Properties
   router.get("/", properties.findAll);
 
