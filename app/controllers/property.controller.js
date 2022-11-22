@@ -13,7 +13,7 @@ exports.create = (req, res) => {
   const property = new Property({
     title: req.body.title,
     description: req.body.description,
-    type: req.body.type,
+    proptype: req.body.proptype,
     location: req.body.location,
     guests: req.body.guests,
     beds: req.body.beds,
@@ -37,35 +37,148 @@ exports.create = (req, res) => {
 
 // Retrieve all Tutorials from the database (with condition).
 exports.findAll = (req, res) => {
-  const title = req.query.title;
+  //const title = req.query.title;
 
-  Property.getAll(title, (err, data) => {
+  // Search by location and price
+  if (req.query.hasOwnProperty('location') && req.query.hasOwnProperty('price')) {
+    const location = req.query.location;
+    const price = req.query.price;
+    Property.getLocationAndPrice(location, price,(err, data) => {
+      if (err)
+        res.status(500).send({
+          message:
+              err.message || "Error occurred while retrieving properties by location/price."
+        });
+      else {
+        console.log(`Property with location ${location} and price ${price} was found!` );
+        res.send(data);
+      }
+    });
+  }
+
+  // Search by location
+  else if (req.query.hasOwnProperty('location')) {
+    const location = req.query.location;
+    Property.getLocation(location, (err, data) => {
+      if (err)
+        res.status(500).send({
+          message:
+              err.message || "Error occurred while retrieving properties by location."
+        });
+      else {
+        console.log(`Property with location ${location} was found!` );
+        res.send(data);
+      }
+    });
+  }
+
+  // Search by price
+  else if (req.query.hasOwnProperty('price')) {
+    const price = req.query.price;
+    Property.getPrice(price, (err, data) => {
+      if (err)
+        res.status(500).send({
+          message:
+              err.message || "Error occurred while retrieving properties by price."
+        });
+      else {
+        console.log(`Property with price ${price} was found!` );
+        res.send(data);
+      }
+    });
+  }
+
+  // Search by type
+  else if (req.query.hasOwnProperty('proptype')) {
+    const proptype = req.query.proptype;
+    Property.getType(proptype, (err, data) => {
+      if (err)
+        res.status(500).send({
+          message:
+              err.message || "Error occurred while retrieving properties by property type."
+        });
+      else {
+        console.log(`Property with type ${proptype} was found!` );
+        res.send(data);
+      }
+    });
+  }
+
+  // Default (get all) search
+  else  {
+    const title = req.query.title;
+    Property.getAll(title, (err, data) => {
+      if (err)
+        res.status(500).send({
+          message:
+              err.message || "Some error occurred while retrieving properties."
+        });
+      else {
+        console.log(`Property with ${title} title was found!`);
+        res.send(data);
+      }
+    });
+
+  }
+};
+
+exports.findLocation = (req, res) => {
+  const location = req.query.location;   // ignore/tried changing req.query.location to req.params.location
+
+  Property.getLocation(location, (err, data) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || "Some error occurred while retrieving properties."
+            err.message || "Error occurred while retrieving properties by location."
       });
-    else res.send(data);
+    else {
+      console.log(`Property with location ${location} was found!` );
+      res.send(data);
+    }
   });
 };
 
 
-// Find a single Property by Id
+// Find a single Tutorial by Id
 exports.findOne = (req, res) => {
   Property.findById(req.params.id, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Not found Property with id ${req.params.id}.`
+          message: `(findOne) Not found Property with id ${req.params.id}.`
         });
       } else {
         res.status(500).send({
-          message: "Error retrieving Property with id " + req.params.id
+          message: "(findOne) Error retrieving Property with id " + req.params.id
         });
       }
-    } else res.send(data);
+    } else {
+        console.log(`findOne called` );
+        res.send(data);
+    }
   });
 };
+
+exports.findOneLocation = (req, res) => {
+  Property.findByLocation(req.params.location, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found Property with location ${req.params.location}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving Property with location " + req.params.location
+        });
+      }
+    } else {
+      console.log("findOneLocation called")
+      res.send(data);
+    }
+  });
+};
+
+
 
 // Update a Tutorial identified by the id in the request
 exports.update = (req, res) => {

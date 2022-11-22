@@ -29,8 +29,27 @@ Property.create = (newProperty, result) => {
   });
 };
 
-Property.findById = (id, result) => {
-  sql.query(`SELECT * FROM properties WHERE id = ${id}`, (err, res) => {
+Property.findById = (title, result) => {
+  sql.query(`SELECT * FROM properties WHERE title LIKE ${title}`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    if (res.length) {      z
+      console.log("found property (via findOne): ", res[0]);
+      result(null, res[0]);
+      return;
+    }
+
+    // not found Tutorial with the id
+    result({ kind: "not_found" }, null);
+  });
+};
+
+Property.findByLocation = (location, result) => {
+  sql.query(`SELECT * FROM properties WHERE location LIKE ${location}`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -38,7 +57,7 @@ Property.findById = (id, result) => {
     }
 
     if (res.length) {
-      console.log("found tutorial: ", res[0]);
+      console.log("found property (via findOneLocation) : ", res[0]);
       result(null, res[0]);
       return;
     }
@@ -62,7 +81,83 @@ Property.getAll = (title, result) => {
       return;
     }
 
-    console.log("properties: ", res);
+    console.log("properties by title: ", res);
+    result(null, res);
+  });
+};
+
+Property.getLocation = (location, result) => {
+  let query = "SELECT * FROM properties";
+
+  if (location) {
+    query += ` WHERE location LIKE '%${location}%'`;
+  }
+
+  sql.query(query, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    console.log("properties by location: ", res);
+    result(null, res);
+  });
+};
+
+Property.getPrice = (price, result) => {
+  let query = "SELECT * FROM properties";
+
+  if (price) {
+    query += ` WHERE price LIKE '%${price}%'`;
+  }
+
+  sql.query(query, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    console.log("properties by price: ", res);
+    result(null, res);
+  });
+};
+
+Property.getType = (proptype, result) => {
+  let query = "SELECT * FROM properties";
+
+  if (proptype) {
+    query += ` WHERE proptype LIKE '%${proptype}%'`;
+  }
+
+  sql.query(query, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    console.log("properties by type: ", res);
+    result(null, res);
+  });
+};
+
+Property.getLocationAndPrice = (location, price, result) => {
+  let query = "SELECT * FROM properties";
+
+  if (price) {
+    query += ` WHERE price LIKE '%${price}%' AND location LIKE '%${location}%'`;
+  }
+
+  sql.query(query, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    console.log("properties by price/location: ", res);
     result(null, res);
   });
 };
