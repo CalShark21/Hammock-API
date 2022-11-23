@@ -124,11 +124,11 @@ Property.getPrice = (price, result) => {
   });
 };
 
-Property.getType = (proptype, result) => {
+Property.getType = (type, result) => {
   let query = "SELECT * FROM properties";
 
-  if (proptype) {
-    query += ` WHERE proptype LIKE '%${proptype}%'`;
+  if (type) {
+    query += ` WHERE proptype LIKE '%${type}%'`;
   }
 
   sql.query(query, (err, res) => {

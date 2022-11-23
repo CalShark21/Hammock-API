@@ -13,7 +13,7 @@ exports.create = (req, res) => {
   const property = new Property({
     title: req.body.title,
     description: req.body.description,
-    proptype: req.body.proptype,
+    type: req.body.type,
     location: req.body.location,
     guests: req.body.guests,
     beds: req.body.beds,
@@ -89,16 +89,16 @@ exports.findAll = (req, res) => {
   }
 
   // Search by type
-  else if (req.query.hasOwnProperty('proptype')) {
-    const proptype = req.query.proptype;
-    Property.getType(proptype, (err, data) => {
+  else if (req.query.hasOwnProperty('type')) {
+    const type = req.query.type;
+    Property.getType(type, (err, data) => {
       if (err)
         res.status(500).send({
           message:
               err.message || "Error occurred while retrieving properties by property type."
         });
       else {
-        console.log(`Property with type ${proptype} was found!` );
+        console.log(`Property with type ${type} was found!` );
         res.send(data);
       }
     });
