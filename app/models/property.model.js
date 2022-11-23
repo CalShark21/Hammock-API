@@ -87,6 +87,7 @@ Property.getAll = (title, result) => {
 };
 
 Property.getLocation = (location, result) => {
+
   let query = "SELECT * FROM properties";
 
   if (location) {
@@ -106,10 +107,15 @@ Property.getLocation = (location, result) => {
 };
 
 Property.getPrice = (price, result) => {
+
+  let priceArr = price.split(",")
+  let min = parseInt(priceArr[0]);
+  let max = parseInt(priceArr[1]);
+
   let query = "SELECT * FROM properties";
 
   if (price) {
-    query += ` WHERE price LIKE '%${price}%'`;
+    query += ` WHERE price BETWEEN '%${min}%' AND '%${max}%' `;
   }
 
   sql.query(query, (err, res) => {
@@ -125,10 +131,15 @@ Property.getPrice = (price, result) => {
 };
 
 Property.getType = (proptype, result) => {
+
+  //let proptypeArray = proptype.split(",");
+  //proptypeArray.pop();
+
   let query = "SELECT * FROM properties";
 
   if (proptype) {
-    query += ` WHERE proptype LIKE '%${proptype}%'`;
+    //query += ` WHERE proptype LIKE '%${proptype}%'`;
+    query += ` WHERE MATCH(proptype) against('%${proptype}%') `;
   }
 
   sql.query(query, (err, res) => {
