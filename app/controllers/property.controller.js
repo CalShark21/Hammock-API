@@ -21,7 +21,8 @@ exports.create = (req, res) => {
     amenities: req.body.amenities,
     price: req.body.price,
     main_photo: req.body.main_photo,
-    side_photo: req.body.side_photo
+    side_photo: req.body.side_photo,
+    email: req.body.email
   });
 
   // Save Tutorial in the database
