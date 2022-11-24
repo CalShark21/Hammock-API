@@ -14,6 +14,7 @@ const Property = function(property) {
   this.price = property.price;
   this.main_photo = property.main_photo;
   this.side_photo = property.side_photo;
+  this.email = property.email;
 };
 
 Property.create = (newProperty, result) => {
