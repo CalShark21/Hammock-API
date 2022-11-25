@@ -12,8 +12,9 @@ exports.create = (req, res) => {
   // Create a Property
   const property = new Property({
     title: req.body.title,
+    id: req.body.id,
     description: req.body.description,
-    proptype: req.body.proptype,
+    type: req.body.type,
     location: req.body.location,
     guests: req.body.guests,
     beds: req.body.beds,
@@ -39,10 +40,13 @@ exports.create = (req, res) => {
 exports.findAll = (req, res) => {
   //const title = req.query.title;
 
-  // Search by location and price
+  // Search by location and price (testing multiple params)
   if (req.query.hasOwnProperty('location') && req.query.hasOwnProperty('price')) {
     const location = req.query.location;
     const price = req.query.price;
+
+
+
     Property.getLocationAndPrice(location, price,(err, data) => {
       if (err)
         res.status(500).send({
@@ -89,8 +93,8 @@ exports.findAll = (req, res) => {
   }
 
   // Search by type
-  else if (req.query.hasOwnProperty('proptype')) {
-    const proptype = req.query.proptype;
+  else if (req.query.hasOwnProperty('type')) {
+    const proptype = req.query.type;
     Property.getType(proptype, (err, data) => {
       if (err)
         res.status(500).send({

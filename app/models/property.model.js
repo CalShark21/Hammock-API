@@ -37,7 +37,7 @@ Property.findById = (title, result) => {
       return;
     }
 
-    if (res.length) {      z
+    if (res.length) {
       console.log("found property (via findOne): ", res[0]);
       result(null, res[0]);
       return;
@@ -115,7 +115,8 @@ Property.getPrice = (price, result) => {
   let query = "SELECT * FROM properties";
 
   if (price) {
-    query += ` WHERE price BETWEEN '%${min}%' AND '%${max}%' `;
+    console.log(` WHERE price BETWEEN '${min}' AND '${max}' `);
+    query += ` WHERE price BETWEEN '${min}' AND '${max}' `;
   }
 
   sql.query(query, (err, res) => {
@@ -130,16 +131,16 @@ Property.getPrice = (price, result) => {
   });
 };
 
-Property.getType = (proptype, result) => {
+Property.getType = (type, result) => {
 
   //let proptypeArray = proptype.split(",");
   //proptypeArray.pop();
 
   let query = "SELECT * FROM properties";
 
-  if (proptype) {
+  if (type) {
     //query += ` WHERE proptype LIKE '%${proptype}%'`;
-    query += ` WHERE MATCH(proptype) against('%${proptype}%') `;
+    query += ` WHERE MATCH(type) against('%${type}%') `;
   }
 
   sql.query(query, (err, res) => {
