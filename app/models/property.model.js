@@ -107,10 +107,16 @@ Property.getLocation = (location, result) => {
 };
 
 Property.getPrice = (price, result) => {
+
+  let priceArr = price.split(",")
+  let min = parseInt(priceArr[0]);
+  let max = parseInt(priceArr[1]);
+
   let query = "SELECT * FROM properties";
 
   if (price) {
-    query += ` WHERE price LIKE '%${price}%'`;
+    console.log(` WHERE price BETWEEN '${min}' AND '${max}' `);
+    query += ` WHERE price BETWEEN '${min}' AND '${max}' `;
   }
 
   sql.query(query, (err, res) => {
@@ -126,10 +132,15 @@ Property.getPrice = (price, result) => {
 };
 
 Property.getType = (type, result) => {
+
+  //let proptypeArray = proptype.split(",");
+  //proptypeArray.pop();
+
   let query = "SELECT * FROM properties";
 
   if (type) {
-    query += ` WHERE proptype LIKE '%${type}%'`;
+    //query += ` WHERE proptype LIKE '%${proptype}%'`;
+    query += ` WHERE MATCH(type) against('%${type}%') `;
   }
 
   sql.query(query, (err, res) => {

@@ -123,7 +123,6 @@ exports.findAll = (req, res) => {
   }
 };
 
-/*
 exports.findLocation = (req, res) => {
   const location = req.query.location;   // ignore/tried changing req.query.location to req.params.location
 
@@ -139,7 +138,7 @@ exports.findLocation = (req, res) => {
     }
   });
 };
-*/
+
 
 // Find a single Tutorial by Id
 exports.findOne = (req, res) => {
@@ -179,6 +178,8 @@ exports.findOneLocation = (req, res) => {
     }
   });
 };
+
+
 
 // Update a Tutorial identified by the id in the request
 exports.update = (req, res) => {
