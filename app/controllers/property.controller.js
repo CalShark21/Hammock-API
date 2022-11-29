@@ -12,7 +12,6 @@ exports.create = (req, res) => {
   // Create a Property
   const property = new Property({
     title: req.body.title,
-    id: req.body.id,
     description: req.body.description,
     type: req.body.type,
     location: req.body.location,
@@ -22,7 +21,8 @@ exports.create = (req, res) => {
     amenities: req.body.amenities,
     price: req.body.price,
     main_photo: req.body.main_photo,
-    side_photo: req.body.side_photo
+    side_photo: req.body.side_photo,
+    email: req.body.email
   });
 
   // Save Tutorial in the database
@@ -40,13 +40,10 @@ exports.create = (req, res) => {
 exports.findAll = (req, res) => {
   //const title = req.query.title;
 
-  // Search by location and price (testing multiple params)
+  // Search by location and price
   if (req.query.hasOwnProperty('location') && req.query.hasOwnProperty('price')) {
     const location = req.query.location;
     const price = req.query.price;
-
-
-
     Property.getLocationAndPrice(location, price,(err, data) => {
       if (err)
         res.status(500).send({
@@ -94,15 +91,15 @@ exports.findAll = (req, res) => {
 
   // Search by type
   else if (req.query.hasOwnProperty('type')) {
-    const proptype = req.query.type;
-    Property.getType(proptype, (err, data) => {
+    const type = req.query.type;
+    Property.getType(type, (err, data) => {
       if (err)
         res.status(500).send({
           message:
               err.message || "Error occurred while retrieving properties by property type."
         });
       else {
-        console.log(`Property with type ${proptype} was found!` );
+        console.log(`Property with type ${type} was found!` );
         res.send(data);
       }
     });

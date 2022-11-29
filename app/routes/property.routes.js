@@ -12,7 +12,7 @@ module.exports = app => {
   router.get("/", properties.findAll);
 
   // Retrieve a single Tutorial with id
-  router.get("/:title", properties.findOne);
+  router.get("/:id", properties.findOne);
 
   // Retrieve a single Property with location
   router.get('/:location', properties.findOneLocation);

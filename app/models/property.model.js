@@ -14,6 +14,7 @@ const Property = function(property) {
   this.price = property.price;
   this.main_photo = property.main_photo;
   this.side_photo = property.side_photo;
+  this.email = property.email;
 };
 
 Property.create = (newProperty, result) => {
@@ -29,8 +30,8 @@ Property.create = (newProperty, result) => {
   });
 };
 
-Property.findById = (title, result) => {
-  sql.query(`SELECT * FROM properties WHERE title LIKE ${title}`, (err, res) => {
+Property.findById = (id, result) => {
+  sql.query(`SELECT * FROM properties WHERE id LIKE ${id}`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -87,7 +88,6 @@ Property.getAll = (title, result) => {
 };
 
 Property.getLocation = (location, result) => {
-
   let query = "SELECT * FROM properties";
 
   if (location) {
