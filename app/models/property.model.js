@@ -131,16 +131,16 @@ Property.getPrice = (price, result) => {
   });
 };
 
+/**
+ * Gets all properties from the database with the specified types (used by search filter)
+ * @param type A string structured as a comma separated list, containing list of property types
+ */
 Property.getType = (type, result) => {
-
-  //let proptypeArray = proptype.split(",");
-  //proptypeArray.pop();
 
   let query = "SELECT * FROM properties";
 
   if (type) {
-    //query += ` WHERE proptype LIKE '%${proptype}%'`;
-    query += ` WHERE MATCH(type) against('%${type}%') `;
+    query += ` WHERE MATCH(type) against('%${type}%') `; // Uses fulltext index in SQL, requires "ALTER TABLE [tablename] ADD FULLTEXT index_name(type);"
   }
 
   sql.query(query, (err, res) => {
@@ -151,6 +151,54 @@ Property.getType = (type, result) => {
     }
 
     console.log("properties by type: ", res);
+    result(null, res);
+  });
+};
+
+/**
+ * Gets all properties from the database with the specified types (used by search filter)
+ * @param amens A string structured as a comma separated list, containing list of property amenities
+ */
+Property.getAmenities = (amens, result) => {
+
+  let query = "SELECT * FROM properties";
+
+  if (amens) {
+    query += ` WHERE MATCH(amenities) against('%${amens}%') `; // Uses fulltext index in SQL, requires "ALTER TABLE [tablename] ADD FULLTEXT index_name(amenities);"
+  }
+
+  sql.query(query, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    console.log("properties by amenities: ", res);
+    result(null, res);
+  });
+};
+
+/**
+ * Gets all properties from the database with the specified # of guests (used by search filter)
+ * @param guests An integer representing number of guests
+ */
+Property.getGuests = (guests, result) => {
+
+  let query = "SELECT * FROM properties";
+
+  if (guests) {
+    query += ` WHERE guests >= '${guests}' `;
+  }
+
+  sql.query(query, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    console.log("properties by # of guests: ", res);
     result(null, res);
   });
 };

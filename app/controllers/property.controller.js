@@ -36,12 +36,29 @@ exports.create = (req, res) => {
   });
 };
 
-// Retrieve all Tutorials from the database (with condition).
+// Retrieve all Tutorials from the database (with given condition). Called by '/api/properties/...' route
 exports.findAll = (req, res) => {
-  //const title = req.query.title;
 
-  // Search by location and price
-  if (req.query.hasOwnProperty('location') && req.query.hasOwnProperty('price')) {
+  // Search for properties by location
+  if (req.query.hasOwnProperty('location')) {
+      const location = req.query.location;
+
+      // Call to model class to create SQL query and retrieve properties
+      Property.getLocation(location, (err, data) => {
+        if (err)
+          res.status(500).send({
+            message:
+                err.message || "Error occurred while retrieving properties by location."
+          });
+        else {
+          console.log(`Property with location ${location} was found!` );
+          res.send(data);
+        }
+      });
+    }
+
+  // Search by combination of location and price
+  else if (req.query.hasOwnProperty('location') && req.query.hasOwnProperty('price')) {
     const location = req.query.location;
     const price = req.query.price;
     Property.getLocationAndPrice(location, price,(err, data) => {
@@ -57,23 +74,7 @@ exports.findAll = (req, res) => {
     });
   }
 
-  // Search by location
-  else if (req.query.hasOwnProperty('location')) {
-    const location = req.query.location;
-    Property.getLocation(location, (err, data) => {
-      if (err)
-        res.status(500).send({
-          message:
-              err.message || "Error occurred while retrieving properties by location."
-        });
-      else {
-        console.log(`Property with location ${location} was found!` );
-        res.send(data);
-      }
-    });
-  }
-
-  // Search by price
+  // Search for properties by price
   else if (req.query.hasOwnProperty('price')) {
     const price = req.query.price;
     Property.getPrice(price, (err, data) => {
@@ -89,7 +90,7 @@ exports.findAll = (req, res) => {
     });
   }
 
-  // Search by type
+  // Search for properties by type (eg, hotel, apartment, etc.)
   else if (req.query.hasOwnProperty('type')) {
     const type = req.query.type;
     Property.getType(type, (err, data) => {
@@ -105,7 +106,39 @@ exports.findAll = (req, res) => {
     });
   }
 
-  // Default (get all) search
+  // Search for properties by amenities (eg, 'free breakfast', 'parking', etc.)
+  else if (req.query.hasOwnProperty('amenities')) {
+    const amens = req.query.amenities;
+    Property.getAmenities(amens, (err, data) => {
+      if (err)
+        res.status(500).send({
+          message:
+              err.message || "Error occurred while retrieving properties by property amenities."
+        });
+      else {
+        console.log(`Property with amenities ${amens} was found!` );
+        res.send(data);
+      }
+    });
+  }
+
+  // Search for properties by type (eg, hotel, apartment, etc.)
+  else if (req.query.hasOwnProperty('guests')) {
+    const guests = req.query.guests;
+    Property.getGuests(guests, (err, data) => {
+      if (err)
+        res.status(500).send({
+          message:
+              err.message || "Error occurred while retrieving properties by property # of guests."
+        });
+      else {
+        console.log(`Property with ${guests} or more guests was found!` );
+        res.send(data);
+      }
+    });
+  }
+
+  // Default search (retrieves all properties)
   else  {
     const title = req.query.title;
     Property.getAll(title, (err, data) => {
@@ -123,24 +156,7 @@ exports.findAll = (req, res) => {
   }
 };
 
-exports.findLocation = (req, res) => {
-  const location = req.query.location;   // ignore/tried changing req.query.location to req.params.location
-
-  Property.getLocation(location, (err, data) => {
-    if (err)
-      res.status(500).send({
-        message:
-            err.message || "Error occurred while retrieving properties by location."
-      });
-    else {
-      console.log(`Property with location ${location} was found!` );
-      res.send(data);
-    }
-  });
-};
-
-
-// Find a single Tutorial by Id
+// Find a single Property by Id
 exports.findOne = (req, res) => {
   Property.findById(req.params.id, (err, data) => {
     if (err) {
@@ -160,6 +176,7 @@ exports.findOne = (req, res) => {
   });
 };
 
+// Find single property by location (':/location' route)
 exports.findOneLocation = (req, res) => {
   Property.findByLocation(req.params.location, (err, data) => {
     if (err) {
